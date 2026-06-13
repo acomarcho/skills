@@ -1,0 +1,4 @@
+interface:
+  display_name: "Logbook"
+  short_description: "Persistent work logs for agent handoff"
+  default_prompt: "Use $logbook to create or resume a persistent log for this multi-iteration workstream."

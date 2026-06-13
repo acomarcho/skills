@@ -1,0 +1,11 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Workflow",
+      "description": "Skills for persistent work tracking and agent handoff.",
+      "skills": ["logbook"]
+    }
+  ]
+}
