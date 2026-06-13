@@ -1,0 +1,4 @@
+interface:
+  display_name: "Diligent"
+  short_description: "Thorough investigation without shortcuts"
+  default_prompt: "Use $diligent to investigate this carefully before answering."

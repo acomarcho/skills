@@ -8,6 +8,11 @@
       "skills": ["plain-english"]
     },
     {
+      "title": "Investigation",
+      "description": "Skills for careful research, debugging, and cross-system analysis.",
+      "skills": ["diligent"]
+    },
+    {
       "title": "Workflow",
       "description": "Skills for persistent work tracking, agent handoff, and iterative review.",
       "skills": ["logbook", "fresh-reviewer-loop"]
