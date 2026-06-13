@@ -4,8 +4,8 @@
   "groupings": [
     {
       "title": "Workflow",
-      "description": "Skills for persistent work tracking and agent handoff.",
-      "skills": ["logbook"]
+      "description": "Skills for persistent work tracking, agent handoff, and iterative review.",
+      "skills": ["logbook", "fresh-reviewer-loop"]
     }
   ]
 }

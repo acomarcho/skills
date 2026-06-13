@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fresh Reviewer Loop"
+  short_description: "Independent review loops for plans and diffs"
+  default_prompt: "Use $fresh-reviewer-loop to iterate my plan or implementation through fresh independent reviewers."

@@ -8,6 +8,10 @@ This repository contains installable Agent Skills.
 
 Creates and maintains persistent logbooks for multi-iteration engineering work, investigations, performance tuning, infrastructure changes, and agent handoffs.
 
+### fresh-reviewer-loop
+
+Iterates plans or implementations through fresh Codex reviewer subagents until blockers and major issues converge.
+
 ## Local Validation
 
 List skills from this repository:
@@ -22,6 +26,12 @@ Install the logbook skill into Codex from this local checkout:
 npx skills add . --skill logbook -a codex -g -y
 ```
 
+Install the fresh reviewer loop skill into Codex from this local checkout:
+
+```bash
+npx skills add . --skill fresh-reviewer-loop -a codex -g -y
+```
+
 ## Publishing
 
 Push this repository to GitHub, then install it from the published source:
@@ -29,6 +39,7 @@ Push this repository to GitHub, then install it from the published source:
 ```bash
 npx skills add <owner>/<repo> --list
 npx skills add <owner>/<repo> --skill logbook -a codex -g -y
+npx skills add <owner>/<repo> --skill fresh-reviewer-loop -a codex -g -y
 ```
 
 Once the repository is installed through the `skills` CLI, skills.sh can discover it through CLI telemetry and create the public listing.
