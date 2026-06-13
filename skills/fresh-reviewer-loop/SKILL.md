@@ -95,7 +95,13 @@ Every implementation reviewer must evaluate these four axes:
 1. Holistic - Does the change make sense end to end across all layers it touches? Are any callers, consumers, schemas, migrations, or UI states only partially updated?
 2. Complete - Does it implement the intended behavior? Are there TODO branches, unhandled cases, half-wired call sites, missing tests, or missing data migrations?
 3. Safe end to end - Does data flow correctly from entry point to persistence and back? Are failure modes handled? Any silent swallowing, stale state, security exposure, or adjacent-flow regression?
-4. Clean - Is the code direct and maintainable? Avoid speculative abstractions, unused flags, clever indirection, PR-history comments, and comments that restate self-explanatory code.
+4. Clean - Is the code direct, minimal, and maintainable? Apply DRY/YAGNI/KISS against the actual codebase:
+   - DRY: Before accepting a new helper, hook, component, type, schema wrapper, formatter, parser, or utility, check whether an equivalent already exists in nearby feature code, shared utility modules, framework helpers, or dependencies already in use. Flag duplicate implementations and copy-pasted logic.
+   - YAGNI: Flag exported symbols, public APIs, feature flags, config knobs, generic extension points, new files, or new dependencies that are not consumed by current call sites or required by the requested behavior.
+   - KISS: Prefer direct code over indirection. Flag factories, registries, polymorphic layers, async wrappers, dependency injection, state machines, or broad abstractions that only serve one current use case.
+   - API surface: Keep functions, types, constants, components, and modules private unless outside consumers need them now. Do not export for hypothetical reuse.
+   - Local fit: Follow existing naming, file placement, error handling, test style, and data-flow patterns. Flag unrelated refactors, style churn, or dependency changes bundled into the feature.
+   - Comments: Keep comments for non-obvious rationale and constraints. Flag comments that narrate obvious code or encode PR history.
 
 ### Reviewer Prompt Template
 
@@ -131,8 +137,21 @@ Evaluate along four axes:
 2. Complete. Missing cases, half-wired call sites, missing migrations, missing tests?
 3. Safe end to end. Trace data flow from entry point to persistence and back. Failure
    modes handled or explicitly accepted? Silent error swallowing? Adjacent regressions?
-4. Clean. No speculative abstractions, unused flags, clever indirection, over-commenting,
-   or unclear naming.
+4. Clean. Apply DRY/YAGNI/KISS against the actual codebase:
+   - DRY: Search/read nearby feature code, shared utility modules, framework helpers,
+     and existing dependencies before accepting a new helper, hook, component, type,
+     schema wrapper, formatter, parser, or utility. Flag duplicates and copy-paste.
+   - YAGNI: Flag exports, public APIs, feature flags, config knobs, generic extension
+     points, new files, or new dependencies that no current call site consumes or the
+     requested behavior does not require.
+   - KISS: Flag factories, registries, polymorphic layers, async wrappers, dependency
+     injection, state machines, or broad abstractions that only serve one current use case.
+   - API surface: Keep functions, types, constants, components, and modules private unless
+     outside consumers need them now. Do not export for hypothetical reuse.
+   - Local fit: Follow existing naming, file placement, error handling, test style, and
+     data-flow patterns. Flag unrelated refactors, style churn, or dependency changes.
+   - Comments: Keep comments for non-obvious rationale and constraints. Flag comments
+     that narrate obvious code or encode PR history.
 
 Return findings as:
 
