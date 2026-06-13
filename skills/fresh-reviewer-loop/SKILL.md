@@ -13,7 +13,7 @@ Run repeated independent review rounds on a plan or implementation. Each round m
 - If the harness supports background subagents and the user wants to keep testing or working, start the reviewer in the background and continue useful local work. Otherwise wait for the reviewer result before proceeding.
 - Never continue a previous reviewer subagent for a later round. Start a new reviewer subagent every round.
 - Do not leak your intended fix, diagnosis, or expected answer to the reviewer. Pass the artifact, relevant project context, and neutral task instructions.
-- Address every BLOCKER and MAJOR finding before starting the next round. Record deferred MINOR findings as known limits when they matter.
+- Address every accepted BLOCKER and MAJOR finding before starting the next round. Record rejected findings and deferred MINOR findings when they matter.
 - Stop after convergence or after 5 rounds. If new serious issues keep appearing after 5 rounds, step back and re-evaluate the plan or implementation shape.
 - If no subagent mechanism is available, tell the user the independent loop cannot run as designed. Do not present a self-review as an independent reviewer round.
 
@@ -24,7 +24,7 @@ Run repeated independent review rounds on a plan or implementation. Each round m
 | Plan | A `.plan-{feature}.md` file | The user wants a plan stress-tested before implementation. |
 | Implementation | Working diff plus changed files | The user wants written code reviewed before merge or handoff. |
 
-Both modes use the same loop: start fresh subagent, collect BLOCKER/MAJOR/MINOR findings, update the artifact, verify the result, then repeat until convergence.
+Both modes use the same loop: start fresh subagent, collect BLOCKER/MAJOR/MINOR findings, evaluate them, update the artifact for accepted findings, verify the result, then repeat until convergence.
 
 ## Mode A: Plan Review
 
@@ -34,7 +34,7 @@ Use plan mode when the user is about to authorize non-trivial implementation wor
 
 1. Write or update the plan file at the repository root as `.plan-{feature-slug}.md`. The first line must be `# {Feature Name} - Plan vN`, where `N` is the current review version.
 2. Start a fresh reviewer subagent for round `N`. Give it the plan path, project context paths, and the code files needed to verify the plan's claims.
-3. Review the findings. Fix every BLOCKER and MAJOR in the plan. Bump the plan version header for each revised version.
+3. Review the findings using the Applying Findings section. Fix every accepted BLOCKER and MAJOR in the plan. Bump the plan version header for each revised version.
 4. Add unresolved MINORs or accepted tradeoffs near the end of the plan so later agents can see they were considered.
 5. Repeat with a new subagent each round until the convergence signal is returned or the 5-round ceiling is reached.
 6. When converged, tell the user: `Plan ready at {path}. Say the word to start implementing.`
@@ -84,7 +84,7 @@ Use implementation mode when the implementation is written and the user wants it
 1. Confirm the diff scope. Prefer the working tree plus branch diff against the main integration branch. Use `origin/main` when present; use the repository's actual main branch if different.
 2. If a logbook exists for this feature, append each round there: hypothesis, changes since last round, findings, fixes, tests, and decisions.
 3. Start a fresh reviewer subagent for round `N`. Give it the repo path, diff command, relevant instruction files, plan path if one exists, logbook path if one exists, and enough adjacent files to evaluate the change end to end.
-4. Apply fixes for every BLOCKER and MAJOR. Keep fixes focused on the reviewed work.
+4. Review the findings using the Applying Findings section. Apply fixes for every accepted BLOCKER and MAJOR. Keep fixes focused on the reviewed work.
 5. Run the relevant build, type-check, tests, or smoke checks before starting the next round so the next reviewer sees a coherent state.
 6. Repeat with a new subagent each round until the convergence signal is returned or the 5-round ceiling is reached.
 
@@ -161,6 +161,28 @@ Return findings as:
 
 Cite file paths and line numbers for every finding. Be terse. No filler.
 ```
+
+## Applying Findings
+
+Treat reviewer output as critique to evaluate, not commands to obey blindly.
+
+1. Triage each finding before editing:
+   - Accept findings that are correct, in scope for the user's request, aligned with the current plan or implementation direction, and fixable without disproportionate complexity.
+   - Reject findings that are false positives, subjective preferences, scope creep, requests for a different product direction, or fixes that would introduce more complexity than the problem justifies.
+   - Defer MINOR findings only when they do not block correctness, safety, or maintainability. Record the reason if the finding is likely to come up again.
+2. Fix root causes, not just examples:
+   - Step back from the specific failing line or case and identify the underlying pattern.
+   - Check whether the same issue exists in other parts of the changed plan, diff, nearby call sites, tests, schemas, or UI states.
+   - Prefer one coherent fix that addresses the class of issue introduced by the work over several whack-a-mole patches.
+   - Do not overgeneralize beyond current needs; generalize only to the extent needed by the accepted finding and the existing codebase shape.
+3. Keep the fix aligned:
+   - Preserve the user's requested direction and the chosen architecture unless the finding proves that direction is flawed.
+   - Keep changes scoped to the reviewed work. Avoid unrelated refactors, opportunistic cleanup, and new abstractions that are not needed for the accepted finding.
+   - If a valid finding implies a major direction change or large complexity increase, pause and present the tradeoff instead of silently expanding scope.
+4. Verify the fix:
+   - Run the tests, type-checks, builds, linters, evals, smoke checks, or manual checks that cover the touched behavior.
+   - If a relevant check does not exist or cannot run, state that explicitly and use the closest meaningful verification available.
+   - Do not start the next reviewer round until accepted BLOCKER and MAJOR fixes have been applied and the relevant checks have been run or consciously accounted for.
 
 ## Convergence Signal
 
