@@ -10,7 +10,7 @@ Creates and maintains persistent logbooks for multi-iteration engineering work, 
 
 ### fresh-reviewer-loop
 
-Iterates plans or implementations through fresh Codex reviewer subagents until blockers and major issues converge.
+Iterates plans or implementations through fresh reviewer subagents until blockers and major issues converge.
 
 ## Local Validation
 
@@ -31,6 +31,8 @@ Install the fresh reviewer loop skill into Codex from this local checkout:
 ```bash
 npx skills add . --skill fresh-reviewer-loop -a codex -g -y
 ```
+
+Replace `codex` with another supported agent target when installing for a different harness.
 
 ## Publishing
 
