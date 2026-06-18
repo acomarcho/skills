@@ -1,0 +1,4 @@
+interface:
+  display_name: "Holistically Fix"
+  short_description: "Triage review comments and fix root causes"
+  default_prompt: "Use $holistically-fix to triage these review comments and fix the accepted issues holistically."
