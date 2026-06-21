@@ -1,6 +1,6 @@
 ---
 name: diligent
-description: Diligent working mode for careful, thorough, evidence-first tasks. Use when the user says "diligent", "diligent mode", "be diligent", "no shortcuts", "investigate thoroughly", "look everywhere", "exhaustive search", "root cause this", or asks for careful debugging, review, research, incident investigation, architecture tracing, or cross-system analysis. Drives attention to detail, perseverance, broad evidence gathering, connected-context mapping, honest uncertainty, and subagent-assisted investigation when available.
+description: Diligent working mode for careful, thorough, evidence-first tasks. Use when the user says "diligent", "diligent mode", "be diligent", "no shortcuts", "investigate thoroughly", "look everywhere", "exhaustive search", "root cause this", or asks for careful debugging, review, research, incident investigation, architecture tracing, document creation, reporting, or cross-system analysis. Drives attention to detail, perseverance, broad evidence gathering, connected-context mapping, self-contained reporting, honest uncertainty, and subagent-assisted investigation when available.
 ---
 
 # Diligent
@@ -63,6 +63,21 @@ Keep only relevant connected pieces in context. Do not wander into unrelated sys
 When the harness and user permissions allow, spin up as many focused subagents as needed to search different evidence sources in parallel. Give each subagent a clear, bounded assignment such as code tracing, log review, database checks, cloud CLI inspection, docs/history review, or test reproduction.
 
 Do not use subagents as a substitute for judgment. Integrate their findings, resolve conflicts, and verify important claims yourself when the outcome depends on them.
+
+## Documents and Reports
+
+When creating a document, report, write-up, handoff, incident note, plan, or summary, assume the reader has no prior context unless the user says otherwise.
+
+- Gather enough background for the document to stand on its own: problem, goal, scope, timeline, systems involved, evidence checked, decisions, risks, and next steps.
+- Define technical terms, acronyms, internal names, and domain jargon the first time they appear. Use day-to-day English before or after the exact term.
+- Explain why each important detail matters. Do not just list facts.
+- Put the main answer or conclusion near the top, then support it with evidence.
+- Separate facts, inferences, assumptions, and recommendations.
+- Include concrete references when useful: file paths, commands, logs, dashboards, tickets, table names, dates, versions, and owners.
+- Preserve important nuance. Do not simplify away limits, exceptions, uncertainty, or tradeoffs.
+- Make the structure easy to scan with clear headings, short paragraphs, tables, or bullets when they help.
+- If information is missing, say what is missing, where you looked, and what would be needed to confirm it.
+- Before finalizing, reread the document from the reader's point of view and fill any context gaps that would make it confusing.
 
 ## Reporting
 
