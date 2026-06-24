@@ -15,7 +15,7 @@
     {
       "title": "Workflow",
       "description": "Skills for persistent work tracking, agent handoff, and iterative review.",
-      "skills": ["logbook", "fresh-reviewer-loop", "holistically-fix"]
+      "skills": ["logbook", "fresh-reviewer-loop", "holistically-fix", "custom-pr-review"]
     }
   ]
 }
