@@ -1,0 +1,4 @@
+interface:
+  display_name: "Explore Options"
+  short_description: "Generate diverse solution alternatives"
+  default_prompt: "Use $explore-options to propose several different ways to solve this problem."
