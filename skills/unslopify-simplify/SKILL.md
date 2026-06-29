@@ -33,6 +33,8 @@ Before deleting or rewriting anything, identify the intended scope:
 
 Use that intent as the standard. Do not broaden the work because the diff happens to contain extra ideas.
 
+Separate feature scope from code-diff scope. Keep the agreed product behavior, but minimize the implementation area needed to achieve it.
+
 ## What to Challenge
 
 ### Fallbacks
@@ -91,6 +93,28 @@ Ask:
 - Can the code be collapsed to one clear path?
 
 Remove branches that only support invented states.
+
+### Behavior Surface
+
+Before keeping any change, identify which behavior surface it touches:
+
+- Internal persistence.
+- External API, webhook, export, or callback payload.
+- User-visible UI.
+- Background cleanup or job behavior.
+- Shared type/schema used by other flows.
+- Tests only.
+
+Reject changes to a behavior surface that was not part of the original intent unless they are strictly required to make the requested behavior work.
+
+For every changed external surface, require explicit evidence:
+
+- Was this requested?
+- Was it agreed in the plan?
+- Is there a failing test, review comment, or production bug proving it is needed?
+- Can the goal be achieved without touching it?
+
+If the answer is no, remove it or split it into a separate PR.
 
 ### Tests
 
