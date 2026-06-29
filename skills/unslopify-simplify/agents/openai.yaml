@@ -1,0 +1,4 @@
+interface:
+  display_name: "Unslopify Simplify"
+  short_description: "Trim diffs to minimal intentional changes"
+  default_prompt: "Use $unslopify-simplify to review this diff and remove unnecessary complexity."
