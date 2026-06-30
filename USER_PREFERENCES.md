@@ -10,6 +10,8 @@ For logging, tracing, analytics, or alerting changes, prove the event actually r
 
 For live app failures, treat the user's report as runtime evidence. Reproduce the same environment, URL, account, room, tenant, or role when possible; use browser automation for UI claims and cloud logs/data for backend claims before defending a diff or explaining the likely cause.
 
+For webhooks, workers, schedulers, and event systems in preview or branch environments, verify the live endpoint, platform env vars, and SDK routing before blaming setup. Distinguish "the endpoint is served and can sync/listen" from "events are sent"; do not add broad preview guards that block legitimate branch environments unless that is the intended product behavior.
+
 For frontend workflow changes, verify the real browser path before calling the work done: run the right dev or built server, keep logs visible, use browser automation when available, capture screenshots when visual quality matters, and check reload/persistence plus clear/reset behavior for stateful UI.
 
 For production incident fixes, separate the root-cause repair, hardening, and alerting. Explain the exact failure order and why each change alters the outcome before tuning defaults like timeouts, retries, concurrency, or polling.
