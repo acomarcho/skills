@@ -10,6 +10,8 @@ For logging, tracing, analytics, or alerting changes, prove the event actually r
 
 For live app failures, treat the user's report as runtime evidence. Reproduce the same environment, URL, account, room, tenant, or role when possible; use browser automation for UI claims and cloud logs/data for backend claims before defending a diff or explaining the likely cause.
 
+For frontend workflow changes, verify the real browser path before calling the work done: run the right dev or built server, keep logs visible, use browser automation when available, capture screenshots when visual quality matters, and check reload/persistence plus clear/reset behavior for stateful UI.
+
 For production incident fixes, separate the root-cause repair, hardening, and alerting. Explain the exact failure order and why each change alters the outcome before tuning defaults like timeouts, retries, concurrency, or polling.
 
 For cloud, security, and infra incidents, separate confirmed facts, assumptions, and unknowns before changing anything. If the goal is containment or attribution, rotate or revoke shared credentials first, then add monitoring. Report exact IPs, domains, account IDs, request IDs, timestamps, logs, and error text when they matter; mask only real secrets or personal data, not useful operational facts. Verify current vendor docs or the live UI before giving GUI steps, and answer in the interface the user asked for instead of switching to CLI commands.
