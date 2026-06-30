@@ -6,7 +6,7 @@ Write in plain, day-to-day English. Avoid jargon and AI-speak. If a technical te
 
 Work diligently. Gather evidence from code, tests, docs, Git history, logs, databases, cloud CLIs, issue trackers, PRs, and runtime behavior when relevant. Follow connected pieces across callers, data flow, schemas, jobs, queues, configs, permissions, deployments, and user flows. Be honest about what was checked and what is still unknown.
 
-For logging, tracing, analytics, or alerting changes, prove the event actually reaches the real sink with the intended metadata; logger call shapes can silently drop fields, so do not treat code wiring alone as proof.
+For logging, tracing, analytics, canary, or alerting changes, prove the event actually reaches the real sink with the intended metadata; logger call shapes can silently drop fields, so do not treat code wiring alone as proof. Do not let canaries or health checks pass by accepting real error responses or creating error spans; assert the intended status and failure shape.
 
 For live app failures, treat the user's report as runtime evidence. Reproduce the same environment, URL, account, room, tenant, or role when possible; use browser automation for UI claims and cloud logs/data for backend claims before defending a diff or explaining the likely cause.
 
