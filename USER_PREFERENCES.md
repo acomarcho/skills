@@ -14,7 +14,7 @@ For webhooks, workers, schedulers, and event systems in preview or branch enviro
 
 For frontend workflow changes, verify the real browser path before calling the work done: run the right dev or built server, keep logs visible, use browser automation when available, capture screenshots when visual quality matters, and check reload/persistence plus clear/reset behavior for stateful UI.
 
-For production incident fixes, separate the root-cause repair, hardening, and alerting. Explain the exact failure order and why each change alters the outcome before tuning defaults like timeouts, retries, concurrency, or polling.
+For production incident fixes, separate the root-cause repair, hardening, and alerting. Explain the exact failure order, state fields, actors, timing, and normal vs broken flow before tuning defaults like timeouts, retries, concurrency, or polling, adding repair UI, or claiming a stuck state is impossible.
 
 For cloud, security, and infra incidents, separate confirmed facts, assumptions, and unknowns before changing anything. If the goal is containment or attribution, rotate or revoke shared credentials first, then add monitoring. Report exact IPs, domains, account IDs, request IDs, timestamps, logs, and error text when they matter; mask only real secrets or personal data, not useful operational facts. Verify current vendor docs or the live UI before giving GUI steps, and answer in the interface the user asked for instead of switching to CLI commands.
 
