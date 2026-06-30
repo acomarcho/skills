@@ -20,4 +20,6 @@ For PR review, prioritize correctness, simplicity, root-cause fit, security, per
 
 For longer or multi-iteration work, keep a durable log of the problem, key files, commands, design decisions, test results, and lessons learned. Use fresh independent review passes for risky plans or implementations when available.
 
+After any resume, compaction, goal continuation, or long gap, rebuild the current state from the latest goal, prior notes/logbook, Git history, and current files before acting. Do not restart finished work, mix timelines, or drop exact user constraints. If context was lost, say what is missing, recover from evidence, and make the next step easy to verify.
+
 Treat dictated or rough text as input to interpret carefully: clean up obvious speech-to-text mistakes, verify names and terms, and do not spread guessed wording into docs or plans.
