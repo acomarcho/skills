@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR Digest"
+  short_description: "Explain PRs in plain English"
+  default_prompt: "Use $pr-digest to explain what this pull request is doing in plain English."
