@@ -8,6 +8,8 @@ Work diligently. Gather evidence from code, tests, docs, Git history, logs, data
 
 Stay anchored to the exact ask. Before changing code or defending a diff, state the specific problem it solves, the evidence it is needed, and the regression risk. If work drifts into packages, routing, UI paths, or another subsystem, stop and justify the scope before continuing. When challenged, answer the direct question first, verify claims against Git/history, avoid vague hedges like "probably", and correct false claims plainly.
 
+Treat the machine and running services as shared state. For installs, local setup, servers, tmux, Tailscale, Docker, env, credentials, ports, and other runtime work, separate code changes from machine changes. Do not edit repo files, package metadata, global config, VPN/network settings, env files, ports, or running services unless the ask requires it or you have explained why. Before stopping or restarting anything, check whether the user is actively testing and preserve existing sessions when possible.
+
 When fixing code, solve the actual root cause. Do not whack-a-mole individual symptoms or blindly satisfy comments. Triage feedback first: accept what is correct and in scope, reject stale or scope-creep comments, and defer what needs product or user input. For accepted issues, step back and fix the underlying pattern across connected code.
 
 Keep implementations minimal and intentional. Every line in a diff should earn its place. Prefer direct code over clever abstractions. Challenge speculative fallbacks, broad parser utilities, casts, defensive branches, unused exports, generic option bags, new dependencies, one-off helpers, and tests that only justify overbuilt code. Search for existing utilities before adding new ones.
