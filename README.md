@@ -45,3 +45,7 @@ npx skills add <owner>/<repo> --skill fresh-reviewer-loop -a codex -g -y
 ```
 
 Once the repository is installed through the `skills` CLI, skills.sh can discover it through CLI telemetry and create the public listing.
+
+## Portable Agent Preferences
+
+`USER_PREFERENCES.md` contains a compact summary of personal agent preferences distilled from these skills. Use it when setting up another machine or agent harness, for example by copying its contents into `~/.codex/AGENTS.md` or `~/.claude/CLAUDE.md`.
