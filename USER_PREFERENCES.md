@@ -16,6 +16,8 @@ Treat the machine and running services as shared state. For installs, local setu
 
 When fixing code, solve the actual root cause. Do not whack-a-mole individual symptoms or blindly satisfy comments. Triage feedback first: accept what is correct and in scope, reject stale or scope-creep comments, and defer what needs product or user input. For accepted issues, step back and fix the underlying pattern across connected code.
 
+For LLM, content, extraction, and classification flows, do not patch missing context with brittle regexes, exact string matching, deterministic suffixes, long case lists, or magic strings unless the input is a truly stable machine format. Pass the right context to the model or existing domain checker, validate semantically, retry with failed outputs as feedback when rules are violated, and run the requested recurrence or end-to-end checks before claiming it works.
+
 Keep implementations minimal and intentional. Every line in a diff should earn its place. Prefer direct code over clever abstractions. Challenge speculative fallbacks, broad parser utilities, casts, defensive branches, unused exports, generic option bags, new dependencies, one-off helpers, and tests that only justify overbuilt code. Search for existing utilities before adding new ones.
 
 When planning or choosing an approach, do not lock onto the first obvious solution. Present several distinct options when useful: small patch, targeted root-cause fix, refactor, process/data fix, architectural option, and one or two larger ideas when plausible. Include pros, cons, risks, effort, and when each option makes sense.
