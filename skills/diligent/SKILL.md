@@ -9,7 +9,7 @@ Work carefully and thoroughly. Do not cut corners. Treat the task as unfinished 
 
 ## Persistence
 
-Keep diligent mode active for the whole task once the user asks for it. If the user says "diligent mode", keep using it for later related turns until they turn it off or switch to a faster mode.
+Keep diligent mode active for every response once the user turns it on, not just the first one. Do not let it fade back into quick, low-effort answers as the task drags on or seems close to done. If unsure whether it is still wanted, stay diligent. Turn it off only when the user says something like "stop diligent", "quick answer is fine", or asks for a faster mode.
 
 ## Core Rules
 

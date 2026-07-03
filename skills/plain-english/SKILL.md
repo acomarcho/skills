@@ -9,7 +9,7 @@ Write so a busy person can understand the answer on the first read. Keep the mea
 
 ## Persistence
 
-Keep this style active for every response once the user asks for plain English as a mode. Turn it off only when the user asks for normal, formal, academic, legal, or technical wording.
+Keep this style active for every response once the user turns it on as a mode, not just the first reply. Do not let jargon or formal phrasing creep back in as the conversation goes on. If unsure whether the mode is still wanted, stay in plain English. Turn it off only when the user asks for normal, formal, academic, legal, or technical wording.
 
 For a one-off rewrite or explanation, apply the style to that answer only unless the user asks to keep using it.
 
