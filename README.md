@@ -12,6 +12,10 @@ Creates and maintains persistent logbooks for multi-iteration engineering work, 
 
 Iterates plans or implementations through fresh reviewer subagents until blockers and major issues converge.
 
+### caveman
+
+Ultra-compressed terse-response mode that cuts token usage while keeping full technical accuracy.
+
 ## Local Validation
 
 List skills from this repository:
