@@ -48,4 +48,4 @@ Once the repository is installed through the `skills` CLI, skills.sh can discove
 
 ## Portable Agent Preferences
 
-`USER_PREFERENCES.md` contains a compact summary of personal agent preferences distilled from these skills. Use it when setting up another machine or agent harness, for example by copying its contents into `~/.codex/AGENTS.md` or `~/.claude/CLAUDE.md`.
+`USER_PREFERENCES.md` contains a summary of personal agent preferences distilled from these skills. `USER_PREFERENCES_CAVEMAN.md` is the same content condensed in caveman style, for a smaller footprint on every system prompt. Both are meant to be copied directly into an agent's global instructions file — for example `~/.codex/AGENTS.md` or `~/.claude/CLAUDE.md` — when setting up another machine or harness.
