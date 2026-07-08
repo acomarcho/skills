@@ -1,0 +1,4 @@
+interface:
+  display_name: "Acowork"
+  short_description: "Aco-style fixture-first engineering workflow"
+  default_prompt: "Use $acowork to work fixture-first, investigate broadly, compare alternatives, implement, simplify, review, and record the whole run."
