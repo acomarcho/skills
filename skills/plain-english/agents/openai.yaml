@@ -1,4 +1,4 @@
 interface:
   display_name: "Plain English"
-  short_description: "Clear everyday writing without jargon"
-  default_prompt: "Use $plain-english to rewrite this in clear everyday English."
+  short_description: "Concise everyday writing without jargon"
+  default_prompt: "Use $plain-english to rewrite this in concise, casual everyday English."

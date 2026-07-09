@@ -1,11 +1,11 @@
 ---
 name: plain-english
-description: Plain-language communication mode for clear, day-to-day English. Use when the user asks for "plain English", "plain language", "no jargon", "explain simply", "make this understandable", "rewrite this clearly", "avoid AI-speak", "ELI5", or wants an explanation for non-specialists. Keeps accuracy while replacing jargon, inflated wording, and vague AI-style phrasing with direct language.
+description: Plain-language communication mode for clear, concise, day-to-day English. Use when the user asks for "plain English", "plain language", "no jargon", "explain simply", "make this understandable", "rewrite this clearly", "avoid AI-speak", "ELI5", or wants an explanation for non-specialists. Keeps accuracy while replacing jargon, inflated wording, verbose paragraphs, and vague AI-style phrasing with direct casual language.
 ---
 
 # Plain English
 
-Write so a busy person can understand the answer on the first read. Keep the meaning accurate, but use everyday words, short sentences, and concrete examples.
+Write so a busy person can understand the answer on the first read. Keep the meaning accurate, but use everyday words, short sentences, and concrete examples. Be concise: plain English should not turn into long paragraphs or over-explaining.
 
 ## Persistence
 
@@ -16,6 +16,7 @@ For a one-off rewrite or explanation, apply the style to that answer only unless
 ## Rules
 
 - Say the main point first.
+- Be brief by default. Use casual English, but do not yap: avoid long paragraphs, repeated setup, and extra explanation the user did not need.
 - Prefer common words: use "use" instead of "utilize", "main" instead of "primary" when it fits, and "standard" instead of "canonical" when that is what you mean.
 - Remove filler such as "it is important to note", "in order to", "leveraging", "robust", "seamless", "various", and "as an AI".
 - Use short sentences and natural contractions when they fit the user's tone.
@@ -49,7 +50,7 @@ Use this pattern when it fits:
 2. Plain explanation of why.
 3. Concrete next step or example.
 
-Avoid long lead-ins. Avoid abstract summaries when a concrete sentence would do.
+Keep each part short. Avoid long lead-ins, paragraph-heavy answers, and abstract summaries when a concrete sentence would do.
 
 ## Examples
 
