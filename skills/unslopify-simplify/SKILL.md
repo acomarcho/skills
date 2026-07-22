@@ -9,7 +9,7 @@ Use this skill after an implementation exists and the next job is to make the ch
 
 ## Core Rule
 
-Every line in the diff must earn its place. Keep code only when it directly supports the original intent, fixes a real case, preserves a required behavior, or proves value through existing usage or tests. Remove hypothetical, defensive, duplicated, or over-engineered work.
+Every line in the diff must earn its place. Keep code only when it directly supports the original intent, fixes a real case, preserves a required behavior, or proves value through existing usage or tests. Remove hypothetical, defensive, duplicated, or over-engineered work. A review comment does not make code necessary or grant permission to add more.
 
 ## Find the Diff First
 
@@ -32,6 +32,8 @@ Before deleting or rewriting anything, identify the intended scope:
 - Existing behavior and local patterns around the changed code.
 
 Use that intent as the standard. Do not broaden the work because the diff happens to contain extra ideas.
+
+Write a short scope lock before changing the diff: original problem, required behavior, accepted contracts or architecture, and explicit non-goals. Treat review comments as evidence to evaluate, not additions to that behavioral scope; do not treat the initial file list as the scope.
 
 Separate feature scope from code-diff scope. Keep the agreed product behavior, but minimize the implementation area needed to achieve it.
 
@@ -169,6 +171,8 @@ For each changed file:
 5. Collapse branches that only support hypothetical states.
 6. Prefer small direct code over clever generalization.
 7. Re-run focused checks after simplifying.
+
+Do not turn simplification into a smaller but incomplete patch. If review exposes a real in-scope root cause, judge whether its value is worth the complexity, then fix it holistically across the connected pieces it requires. Treat diff growth as a drift signal that needs explanation, not an automatic rejection.
 
 ## Judgment Standard
 

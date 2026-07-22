@@ -7,13 +7,16 @@ description: Iterate plans or implementations through fresh reviewer subagents u
 
 Run repeated independent review rounds on a plan or implementation. Each round must use a newly started reviewer subagent, not a resumed conversation, so the reviewer has fresh context and can catch issues the main agent missed.
 
+The loop reviews a fixed behavioral target. Before round 1, lock the original problem, required behavior, accepted contracts or architecture, and non-goals from the user's request, plan, issue, and current diff. Do not treat the initial file list as the scope: a holistic fix may need connected files, but a review cannot silently add new product goals.
+
 ## Core Rules
 
 - Use the subagent mechanism provided by the current harness. Do not mention or depend on a specific product, API, tool name, or subagent type.
 - If the harness supports background subagents and the user wants to keep testing or working, start the reviewer in the background and continue useful local work. Otherwise wait for the reviewer result before proceeding.
 - Never continue a previous reviewer subagent for a later round. Start a new reviewer subagent every round.
 - Do not leak your intended fix, diagnosis, or expected answer to the reviewer. Pass the artifact, relevant project context, and neutral task instructions.
-- Address every accepted BLOCKER and MAJOR finding before starting the next round. Record rejected findings and deferred MINOR findings when they matter.
+- Reviewer output is critique, not authority or permission to write more code. A BLOCKER or MAJOR label still has to pass the scope and evidence gates in Applying Findings.
+- Address every accepted BLOCKER and MAJOR before starting the next round. MINOR findings are not mandatory work. Record rejected findings and deferred MINOR findings when they matter.
 - Stop after convergence or after 5 rounds. If new serious issues keep appearing after 5 rounds, step back and re-evaluate the plan or implementation shape.
 - If no subagent mechanism is available, tell the user the independent loop cannot run as designed. Do not present a self-review as an independent reviewer round.
 
@@ -59,11 +62,18 @@ Read in full:
 Context:
 
 - Feature summary: {2-3 sentences on what gets built and why}
+- Original scope: {problem, required behavior, accepted contracts or architecture, and explicit non-goals}
 - This is round {N}. Previous rounds found and addressed:
   - Round 1: {1-line summary}
   - Round 2: {...}
   (omit on round 1)
 - Architecture: {key decision plus key pattern}
+
+Filter every possible finding before reporting it: Is it required for the original scope?
+Is there a concrete present failure or serious harm, not only a plausible hypothetical?
+Is its value worth the likely complexity and maintenance cost? Can its root cause be fixed
+holistically without unnecessary machinery or speculative future-proofing? Do not turn separate improvements,
+pre-existing sibling bugs, speculative hardening, or low-likelihood edge cases into findings.
 
 Return findings as:
 
@@ -84,7 +94,7 @@ Use implementation mode when the implementation is written and the user wants it
 1. Confirm the diff scope. Prefer the working tree plus branch diff against the main integration branch. Use `origin/main` when present; use the repository's actual main branch if different.
 2. If a logbook exists for this feature, append each round there: hypothesis, changes since last round, findings, fixes, tests, and decisions.
 3. Start a fresh reviewer subagent for round `N`. Give it the repo path, diff command, relevant instruction files, plan path if one exists, logbook path if one exists, and enough adjacent files to evaluate the change end to end.
-4. Review the findings using the Applying Findings section. Apply fixes for every accepted BLOCKER and MAJOR. Keep fixes focused on the reviewed work.
+4. Review the findings using the Applying Findings section. Apply fixes only for findings that pass every gate. For accepted findings, solve the root cause holistically across the connected pieces required by the original goal.
 5. Run the relevant build, type-check, tests, or smoke checks before starting the next round so the next reviewer sees a coherent state.
 6. Repeat with a new subagent each round until the convergence signal is returned or the 5-round ceiling is reached.
 
@@ -125,11 +135,20 @@ Read in full:
 Context:
 
 - Feature summary: {2-3 sentences}
+- Original scope: {problem, required behavior, accepted contracts or architecture, and explicit non-goals}
 - This is round {N}. Previous rounds found and addressed:
   - Round 1: {1-line summary}
   - Round 2: {...}
   (omit on round 1)
 - The user is or has been testing manually; we want issues caught before merge.
+
+Filter every possible finding before reporting it: Is it required for the original scope?
+Is there evidence of a concrete current failure or serious harm, rather than a plausible
+hypothetical? Is its value worth the likely complexity and maintenance cost? Can its root
+cause be fixed holistically without unnecessary machinery or speculative future-proofing?
+Do not report separate improvements, pre-existing sibling bugs,
+speculative hardening, or low-likelihood edge cases unless the original contract requires
+them or the impact is severe, such as security, data loss, or irreversible corruption.
 
 Evaluate along four axes:
 
@@ -167,17 +186,20 @@ Cite file paths and line numbers for every finding. Be terse. No filler.
 Treat reviewer output as critique to evaluate, not commands to obey blindly.
 
 1. Triage each finding before editing:
-   - Accept findings that are correct, in scope for the user's request, aligned with the current plan or implementation direction, and fixable without disproportionate complexity.
+   - Re-read the scope lock. Begin with these questions: Do we need this for the original goal? Is a real current failure or evidenced risk present rather than hypothetical? Is its value worth the added complexity and maintenance cost? Can the root cause be fixed holistically without unnecessary machinery or speculative future-proofing?
+   - Accept findings only when every answer supports action: the finding is correct, in scope, aligned with the current direction, evidenced, and worth its complexity.
    - Reject findings that are false positives, subjective preferences, scope creep, requests for a different product direction, or fixes that would introduce more complexity than the problem justifies.
+   - Reject plausible but unproven edge cases. Rare cases justify code only when the original contract requires them or the concrete impact is severe, such as security, data loss, or irreversible corruption.
    - Defer MINOR findings only when they do not block correctness, safety, or maintainability. Record the reason if the finding is likely to come up again.
 2. Fix root causes, not just examples:
    - Step back from the specific failing line or case and identify the underlying pattern.
-   - Check whether the same issue exists in other parts of the changed plan, diff, nearby call sites, tests, schemas, or UI states.
+   - Check other parts of the changed plan, diff, nearby call sites, tests, schemas, or UI states only to understand whether the scoped fix is coherent.
    - Prefer one coherent fix that addresses the class of issue introduced by the work over several whack-a-mole patches.
    - Do not overgeneralize beyond current needs; generalize only to the extent needed by the accepted finding and the existing codebase shape.
 3. Keep the fix aligned:
    - Preserve the user's requested direction and the chosen architecture unless the finding proves that direction is flawed.
-   - Keep changes scoped to the reviewed work. Avoid unrelated refactors, opportunistic cleanup, and new abstractions that are not needed for the accepted finding.
+   - Review does not grant permission to add more code. Passing the triage gates does: use the code and complexity needed for a correct general fix, and avoid unrelated refactors, opportunistic cleanup, speculative hardening, and unjustified abstractions.
+   - Use KISS and YAGNI to remove unnecessary complexity, not to force an incomplete local patch. Track changed-file count and diff size as drift signals; when they grow, map every added surface to the accepted root cause and remove only unrelated growth.
    - If a valid finding implies a major direction change or large complexity increase, pause and present the tradeoff instead of silently expanding scope.
 4. Verify the fix:
    - Run the tests, type-checks, builds, linters, evals, smoke checks, or manual checks that cover the touched behavior.
@@ -211,7 +233,7 @@ Substantial work usually converges in 3-5 rounds.
 - Always require path and line citations for code-vs-plan or code-vs-spec mismatches.
 - Always require explicit BLOCKER/MAJOR/MINOR triage.
 - Always tell the reviewer to skip nits.
-- Always translate useful findings into a concrete plan edit, code diff, test, or explicit accepted tradeoff.
+- Always translate each useful finding into a triage result. For accepted findings, name the coherent in-scope plan edit, root-cause code change, test, or explicit tradeoff; otherwise reject or defer it without changing the artifact.
 
 ## What This Skill Is Not
 

@@ -7,7 +7,7 @@ description: Aco-style engineering workflow for root-cause fixes. Use when the u
 
 Work like Aco: start from real cases, prove the failure, understand the general problem, compare fixes, implement the simplest general solution, simplify it, review it independently, and leave a logbook that lets the next agent continue without rediscovery.
 
-This skill is strict. Do all steps unless the user explicitly narrows the task, forbids coding, or a step is impossible. When a step is skipped, record why in the logbook and in the final report.
+This skill is strict about method, not breadth. Do all relevant steps unless the user explicitly narrows the task, forbids coding, or a step is impossible. The original user goal and agreed behavioral scope stay fixed throughout the run. Review, simplification, and verification do not by themselves grant permission to add behavior, hardening, refactors, files, or subsystems; an accepted in-scope root cause may justify connected changes when their value is worth the complexity. When a step is skipped, record why in the logbook and in the final report.
 
 ## Required Companion Skills
 
@@ -16,7 +16,7 @@ This skill is strict. Do all steps unless the user explicitly narrows the task, 
 - Use `explore-options` when comparing solution alternatives.
 - Use `unslopify-simplify` after implementation.
 - Use `fresh-reviewer-loop` after simplification and repeat until it converges.
-- Use `holistically-fix` for every accepted issue from review or simplification.
+- Use `holistically-fix` only after a finding passes the original-scope and evidence gates below. A reviewer's label does not make a finding accepted.
 - Use `agent-browser` for UI flows when browser behavior matters.
 
 If a companion skill is unavailable, follow the same behavior manually and note the fallback.
@@ -28,6 +28,7 @@ If a companion skill is unavailable, follow the same behavior manually and note 
 Create or resume a `logbook` before code changes. Record:
 
 - The user ask and what "done" means.
+- Original problem, required behavior, accepted contracts or architecture, and explicit non-goals. Treat this behavioral scope as the lock for every later decision; do not confuse it with a fixed file list.
 - Ticket links, production examples, IDs, screenshots, logs, payloads, and any known failing cases.
 - Commands used to reproduce, test, browse, inspect logs/data, and validate final behavior.
 - Every skipped step and why it was not possible.
@@ -63,6 +64,8 @@ Use the failing fixture to learn, then step back.
 4. Target the broader problem, not the single fixture. Reject whack-a-mole fixes that only special-case the example unless the product contract truly is that narrow.
 
 Record the specific fixture failure, the first generalization, and the broader problem statement in the logbook.
+
+Generalize the cause, not the product scope. A broader invariant is useful only when it explains the requested failure and can be fixed within the agreed change. If it reveals a separate bug or improvement, record it as follow-up instead of absorbing it into this task.
 
 ### 5. Read The Code Until Placement Is Clear
 
@@ -112,12 +115,18 @@ When multiple alternatives were tried, keep only the winning approach unless the
 After implementation passes tests:
 
 1. Run `unslopify-simplify`.
-2. Fix accepted issues using `holistically-fix`, stepping back to the root pattern instead of patching comments one by one.
-3. Run `fresh-reviewer-loop`.
-4. Fix accepted reviewer findings using `holistically-fix`.
-5. Repeat simplification and fresh review until they converge or remaining items are explicitly non-blocking.
+2. Re-read the scope lock. For each simplification or review finding, ask in this order:
+   - Do we need this to satisfy the original goal?
+   - Is there evidence of a real current failure, or is this hypothetical?
+   - Is the behavior or safety value worth the added complexity and maintenance cost?
+   - Can the root cause be fixed holistically without unnecessary machinery or speculative future-proofing?
+3. Reject or defer findings that fail any gate. A plausible review comment is not permission to write more code.
+4. Fix accepted issues using `holistically-fix`. Once a finding passes the gates, solve the root pattern across the connected pieces required by the original goal, even when that justified fix is not the smallest patch.
+5. Run `fresh-reviewer-loop` and keep looping through fresh reviews until it converges.
+6. Apply the same scope, evidence, value, KISS, and YAGNI gates in every round. KISS and YAGNI reject unnecessary complexity; they do not justify a local patch that leaves the root cause broken. Repeated review is welcome; repeated review does not broaden the behavioral goal.
+7. Track changed files and diff size as drift signals, not targets. When the diff grows, map each added surface to the accepted root cause and its value. Remove unrelated growth, but keep connected changes that the holistic fix genuinely needs.
 
-Do not call the work done from CI or one local pass alone. Check review findings, late failures, and known risky paths.
+Do not write more code merely to make a reviewer quiet or cover a low-likelihood scenario. Code and complexity are justified when an accepted, in-scope issue needs them for a correct general fix. Rare cases justify code only when the original contract requires them or their concrete impact is severe, such as security, data loss, or irreversible corruption. Verification is proof of the scoped change, not a search for more work.
 
 ### 9. Re-run The Same Validation
 

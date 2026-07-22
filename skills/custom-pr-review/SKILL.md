@@ -18,6 +18,7 @@ Review the current branch or pull request as if it is about to be merged. Priori
 4. Find the PR context when available.
    - Read the PR title, body, linked issue, review comments, and CI status when tools such as `gh` are available.
    - If there is no PR, infer intent from commits, tests, fixtures, changed files, issue references, and the diff.
+   - Lock the original problem, required behavior, accepted contracts or architecture, and non-goals. Review against that behavioral scope rather than an idealized version of the whole system; do not treat the initial file list as the scope.
 5. Read project instructions.
    - Search for `AGENTS.md`, `CLAUDE.md`, and nearby package or directory instructions.
    - Treat those rules as review criteria.
@@ -156,6 +157,10 @@ If there are no actionable issues, say that clearly and mention residual risk or
 
 ## Review Discipline
 
+- Before reporting any finding, ask: Do we need this for the original goal? Is there evidence of a concrete current failure or serious harm, rather than a plausible hypothetical? Is its value worth the likely complexity and maintenance cost? Can its root cause be fixed holistically without unnecessary machinery or speculative future-proofing?
+- Report a finding only when it passes those gates. Every comment can sound locally sensible; that does not make it useful or in scope.
+- Do not turn separate improvements, pre-existing sibling bugs, speculative hardening, or low-likelihood edge cases into findings unless the original contract requires them or the concrete impact is severe, such as security, data loss, or irreversible corruption.
+- For accepted findings, recommend the correct general fix across the connected flow. KISS and YAGNI challenge needless complexity; they do not justify a whack-a-mole patch. Treat extra files or lines as a reason to demand a clear root-cause/value explanation, not as a reason to reject a good fix.
 - Do not nitpick style unless it hides a real issue.
 - Do not ask for abstraction just because code repeats once.
 - Do not accept abstraction just because code repeats if the abstraction makes the behavior harder to understand.

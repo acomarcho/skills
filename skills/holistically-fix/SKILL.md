@@ -5,11 +5,11 @@ description: Triage review comments and fix accepted issues by addressing the ro
 
 # Holistically Fix
 
-Use this skill when review comments, PR feedback, GH review threads, pasted critique, QA notes, or issue comments need to be triaged and fixed. The goal is not to satisfy each comment literally. The goal is to understand which comments reveal real in-scope problems, then fix those problems in the right shape across the connected system.
+Use this skill when review comments, PR feedback, GH review threads, pasted critique, QA notes, or issue comments need to be triaged and fixed. The goal is not to satisfy each comment literally. The goal is to understand which comments reveal real problems inside the original user goal, then make the right coherent fix across the connected system.
 
 ## Core Rule
 
-Do not patch only the exact line or example mentioned by a reviewer unless the issue is truly local. Step back, identify the underlying problem, find its connected pieces, and fix the pattern once.
+Review is advice, not permission to write more code. Preserve the original goal, required behavior, agreed architecture, and behavioral boundary. Step back enough to identify the underlying problem, then fix the pattern across every connected piece that boundary requires. Inspect broadly; edit coherently, and leave unrelated systems alone.
 
 ## Workflow
 
@@ -19,14 +19,18 @@ Do not patch only the exact line or example mentioned by a reviewer unless the i
    - Preserve enough context to know what each comment was reacting to.
 
 2. Triage each comment.
-   - Accept comments that are correct, in scope, aligned with the requested direction, and worth fixing.
+   - Re-read the original user request, plan, issue, and current diff before accepting anything. Write down the original problem, required behavior, accepted contracts or architecture, and non-goals when they are not already explicit.
+   - Start with four questions: Do we need this for the original goal? Is a real current failure or evidenced risk present rather than hypothetical? Is the value worth the added complexity and maintenance cost? Can the root cause be fixed holistically without unnecessary machinery or speculative future-proofing?
+   - Accept comments only when every answer supports action: the issue is correct, in scope, aligned with the requested direction, evidenced, and worth its complexity.
    - Reject comments that are stale, wrong, already fixed, subjective, scope creep, or asking for a different product direction.
+   - Reject speculative hardening and low-likelihood edge cases unless the original contract requires them or the concrete impact is severe, such as security, data loss, or irreversible corruption.
    - Defer comments only when they are valid but outside the current change, too risky for this pass, or require user/product input.
    - Track the reason for each reject or defer so the final response is accountable.
 
 3. Generalize accepted comments.
    - Translate each accepted comment into the underlying class of problem.
-   - Ask whether the same issue exists in nearby files, shared helpers, schemas, tests, generated types, API boundaries, UI states, jobs, permissions, migrations, docs, or runtime behavior.
+   - Check nearby files, shared helpers, schemas, tests, generated types, API boundaries, UI states, jobs, permissions, migrations, docs, or runtime behavior only to understand whether the scoped fix is coherent.
+   - Do not absorb sibling bugs, cleanup, or hardening that existed before this change. Record them separately if useful.
    - Group related comments under one root cause when possible.
 
 4. Inspect connected pieces diligently.
@@ -37,6 +41,8 @@ Do not patch only the exact line or example mentioned by a reviewer unless the i
 5. Implement the holistic fix.
    - Fix the root cause, not only the reported symptom.
    - Keep the fix aligned with the existing architecture and the user's requested direction.
+   - Once an issue is accepted, choose the correct general solution across every connected piece the original goal requires. Do not force a smaller local patch that leaves the pattern broken.
+   - Add files, abstractions, public APIs, dependencies, config, schema, migrations, or behavior surfaces only when the accepted root cause needs them and their value justifies their complexity—not merely because a reviewer proposed them.
    - Avoid broad rewrites unless the accepted comments prove the current shape is wrong.
    - Avoid unrelated cleanup.
    - Add or update tests when they are the right way to prove the full issue is fixed.
@@ -44,7 +50,8 @@ Do not patch only the exact line or example mentioned by a reviewer unless the i
 6. Verify.
    - Run the smallest meaningful checks that cover the accepted fixes.
    - If a comment came from a specific reproduction, scenario, log, or review thread, verify that case directly when possible.
-   - Search again for the same pattern after fixing so sibling cases are not left behind.
+   - Search again only to confirm the scoped pattern is handled. Verification does not open a new implementation phase.
+   - Track diff and changed-file growth as a drift signal, not a target. Map added surfaces to the accepted root cause; remove unrelated growth, but keep justified connected changes.
 
 7. Report back.
    - Summarize accepted, rejected, and deferred comments.
@@ -68,6 +75,8 @@ Do not silently ignore comments. If there are many comments, group them by root 
 - Do not make one-off patches for every review bullet when one system-level fix is better.
 - Do not satisfy wording literally while leaving the bug pattern intact.
 - Do not accept scope creep just because it appears in a review.
+- Do not treat a BLOCKER or MAJOR label as authority. The finding still has to pass the scope, evidence, KISS, and YAGNI gates.
+- Do not add code for a plausible but unproven edge case merely because the reviewer can describe it.
 - Do not reject a comment because it is inconvenient to inspect.
 - Do not change unrelated behavior to make a comment disappear.
 - Do not claim a comment is fixed without checking the connected code path.
@@ -76,12 +85,12 @@ Do not silently ignore comments. If there are many comments, group them by root 
 
 Reviewer: "This null check is missing here."
 
-Better response: Search for all entry points that can pass the value, understand whether the type/schema should allow null, update validation or normalization at the boundary if that is the real issue, and add coverage for the relevant path.
+Better response: First prove null can reach the changed path and that the original contract requires handling it. If so, inspect the relevant entry points and fix the contract at the right boundary across the affected flow. If not, reject the hypothetical instead of adding a defensive branch.
 
 Reviewer: "This enum value is not handled in this component."
 
-Better response: Find all consumers of the enum, check generated types, backend schema, API responses, UI states, tests, and fallback behavior. Fix the shared handling or all affected consumers, not only the mentioned component.
+Better response: Prove the value can occur in the requested flow, then check only the connected consumers needed to keep that flow coherent. Record unrelated consumers separately instead of expanding the task.
 
 Reviewer: "This query could leak data across orgs."
 
-Better response: Trace authorization and tenant scoping from route to query to database indexes and tests. Fix the access-control pattern and search for sibling queries with the same risk.
+Better response: Trace authorization and tenant scoping from route to query to tests. Fix any leak introduced or exposed by the scoped change. Report pre-existing sibling-query risks separately unless the same fix is required to make this path safe.
