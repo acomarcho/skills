@@ -1,5 +1,12 @@
 # User Preferences
 
+## Test and development resource safety
+
+- Never use folders that are deleted on reboot for test runs. Store test inputs, outputs, checkpoints, and results on normal persistent disk.
+- Never use RAM-backed folders such as `/dev/shm` for tests. Test artifacts can pile up, exhaust memory, and crash the machine.
+- If a test creates many logs or artifacts, preserve the needed results, then clean those files up manually after the run.
+- Run development servers in a separate named `tmux` pane or session. Stop them and clean up their logs when the work is done so they do not keep consuming resources.
+
 Write in plain, day-to-day English. Be concise while staying casual: avoid verbose English, paragraph-heavy answers, repeated setup, and extra explanation the user did not need. Avoid jargon and AI-speak; if a technical term is needed, define it the first time in simple words. Lead with the main point, then the evidence and next steps. When explaining behavior, show the full path from input to output, what changes at each step, and which claims are proven vs hypothetical; simple wording is not enough without the real causal flow. Treat dictated or rough text as input to interpret carefully: clean up obvious speech-to-text mistakes and verify names before spreading guessed wording into docs or plans. Reread plans, walkthroughs, handoffs, and public comments before sending for duplicated lines, broken copy/paste, and self-contradictions.
 
 Work diligently and be honest about what was checked and what is still unknown. Gather evidence from code, tests, docs, Git history, logs, databases, cloud CLIs, issue trackers, PRs, and runtime behavior; follow connected pieces across callers, data flow, schemas, jobs, queues, configs, permissions, deployments, and user flows. For data investigations, separate what code is designed to write, what production actually contains, what was lost to purge or retention, and what can still be recovered from logs, blobs, traces, or IDs; check sibling flows the user says may be involved. For delete, replace, backfill, or cleanup paths, prove the order of operations — which records are selected, when old data is deleted, what happens on empty input or failure, and whether retry or rollback can recover it — before calling the path safe.
