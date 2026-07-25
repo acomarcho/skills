@@ -22,11 +22,13 @@ When working with reviews, default to thinking: "do I really need to do this fea
 
 When writing prompts for LLM, prompts should be concise, not verbose, with a clear goal condition. Avoid writing conflicting sentences inside a prompt.
 
-When making and running tests, prefer using real production fixtures. If those doesn't exist in big quantity, default to making synthetic ones that mirror real production fixtures that covers the cases that haven't been covered. Run tests in a high concurrency as default, only drop down concurrency if rate limits are hit.
-
 When asked to review, default to prioritizing correctness of logic, simplicity, root-cause fit, security performance, project instructions, and full data flow. Read existing comments and existing descriptions of any. Understand the full flow of the code first before reviewing. For any problems you flag, it should come with the problem definition, an example walkthrough, and some suggestions on how to fix it.
 
 # Running tests and development servers
+
+When creating tests, prefer using real production fixtures. If those doesn't exist in big quantity, default to making synthetic ones that mirror real production fixtures that covers the cases that haven't been covered. Tests should be as faithful as possible to the real production flow (it should use the same input structure, should call the same functions, data flow should mirror production logic, and so on...).
+
+Run tests in a high concurrency as default, only drop down concurrency if rate limits are hit.
 
 When running tests that writes a lot of logs, only write in persistent disk. Don't run in RAM-backed test folders like dev/shm, they fill up RAM.
 
