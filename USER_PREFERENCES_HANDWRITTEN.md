@@ -30,7 +30,7 @@ When creating tests, prefer using real production fixtures. If those doesn't exi
 
 Run tests in a high concurrency as default, only drop down concurrency if rate limits are hit.
 
-When running tests that writes a lot of logs, only write in persistent disk. Don't run in RAM-backed test folders like dev/shm, they fill up RAM.
+When writing a lot of files (logs, eval artifacts, fixtures, prompt dumps), only write in persistent disk like ~/<name>-work. Don't write in /tmp or /dev/shm, they are RAM-backed on my machines and fill up RAM, the run dies mid-write.
 
 If you are running on a tmux session, always start development servers in a separate tmux pane/session, not your default background task.
 

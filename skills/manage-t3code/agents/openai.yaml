@@ -1,0 +1,4 @@
+interface:
+  display_name: "T3 Code Manager"
+  short_description: "Run and troubleshoot T3 Code remote servers"
+  default_prompt: "Use $manage-t3code to run or troubleshoot my T3 Code server and remote browser access."
