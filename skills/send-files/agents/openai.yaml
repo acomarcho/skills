@@ -1,0 +1,4 @@
+interface:
+  display_name: "Send Files"
+  short_description: "Copy files to a remote machine over SSH"
+  default_prompt: "Use $send-files to copy these files to the host I provide, defaulting to ~/Downloads."
