@@ -1,0 +1,4 @@
+interface:
+  display_name: "Concise Mode"
+  short_description: "Short, plain answers with only the key points"
+  default_prompt: "Use $concise-mode to answer briefly in plain English with only the most important points."

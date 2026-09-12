@@ -1,4 +1,0 @@
-interface:
-  display_name: "Be Concise"
-  short_description: "Short, plain answers with only the key points"
-  default_prompt: "Use $be-concise to answer briefly in plain English with only the most important points."

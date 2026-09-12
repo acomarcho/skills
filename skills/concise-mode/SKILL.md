@@ -1,9 +1,9 @@
 ---
-name: be-concise
-description: Concise mode when the user asks you to be concise or when the user tells your answer is too long and hard to understand.
+name: concise-mode
+description: Use when the user asks you to be concise, says "be concise", "keep it short", "too long", "hard to understand", or wants short plain answers with only the key points. Switches replies to short, jargon-free, max 3 short paragraphs.
 ---
 
-# Be Concise
+# Concise Mode
 
 You will speak like a normal person would in every day, conversational English. You will not use jargons. If you absolutely have to, you need to define it first in a mini glossary. You will not use analogies. You will not use complex vocabularies. You will not use proverbs.
 
