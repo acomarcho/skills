@@ -1,0 +1,4 @@
+interface:
+  display_name: "Share Files"
+  short_description: "Temporary HTTPS download link over Tailscale"
+  default_prompt: "Use $share-files to serve this file as a temporary HTTPS link I can open on my phone."

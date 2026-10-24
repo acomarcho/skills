@@ -16,6 +16,11 @@
       "title": "Workflow",
       "description": "Skills for persistent work tracking, agent handoff, and iterative review.",
       "skills": ["acowork", "logbook", "fresh-reviewer-loop", "holistically-fix", "custom-pr-review", "explore-options", "unslopify-simplify", "pr-digest"]
+    },
+    {
+      "title": "File transfer",
+      "description": "Skills for moving files between machines or handing out a download link.",
+      "skills": ["send-files", "share-files"]
     }
   ]
 }
