@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kickoff"
+  short_description: "Start a task with the standard process and reply shape"
+  default_prompt: "Use $kickoff to start this task: pick the mode, follow its process, and write every reply in the agreed shape."
